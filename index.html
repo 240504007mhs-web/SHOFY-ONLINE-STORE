@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tokoku - Toko Online</title>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -36,7 +38,7 @@
 
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
-  <!-- Navbar -->
+  <!-- NAVBAR -->
   <header class="bg-white border-b sticky top-0 z-20 shadow-sm">
 
     <div class="border-b border-slate-100 hidden md:block">
@@ -126,10 +128,10 @@
   </header>
 
 
-  <!-- Banner dan Katalog Produk -->
+  <!-- KONTEN UTAMA -->
   <main class="max-w-6xl mx-auto px-4 py-5 md:py-7 flex-1 w-full">
 
-    <!-- Banner Promosi -->
+    <!-- BANNER PROMOSI -->
     <div class="rounded-xl overflow-hidden mb-5 md:mb-6 shadow-sm">
 
       <div class="bg-gradient-to-r from-amber-100 via-yellow-50 to-amber-200 min-h-48 md:min-h-60 flex flex-col md:flex-row items-center justify-between p-6 md:p-10 gap-5">
@@ -144,8 +146,8 @@
             Belanja Untuk Hari Spesial
           </h2>
 
-          <p class="text-xs text-slate-600 mt-2">
-            *S&K Berlaku
+          <p class="text-sm text-slate-600">
+            Temukan produk pilihan untuk kebutuhan Anda.
           </p>
 
         </div>
@@ -155,16 +157,15 @@
         </div>
 
       </div>
-
     </div>
 
 
-    <!-- Kategori dan Top Up -->
+    <!-- KATEGORI DAN TOP UP -->
     <section class="bg-white border border-slate-100 rounded-2xl p-4 md:p-5 shadow-sm mb-6">
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        <!-- Kategori Pilihan -->
+        <!-- KATEGORI PILIHAN -->
         <div>
 
           <h3 class="text-lg font-bold text-slate-800 mb-4">
@@ -175,42 +176,32 @@
 
             <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
               <div class="text-3xl mb-2">🍪</div>
-              <p class="text-xs font-medium">
-                Makanan<br>Kering
-              </p>
+              <p class="text-xs font-medium">Makanan<br>Kering</p>
             </div>
 
             <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
               <div class="text-3xl mb-2">🤖</div>
-              <p class="text-xs font-medium">
-                Figure
-              </p>
+              <p class="text-xs font-medium">Figure</p>
             </div>
 
             <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
               <div class="text-3xl mb-2">👜</div>
-              <p class="text-xs font-medium">
-                Tas Selempang<br>Pria
-              </p>
+              <p class="text-xs font-medium">Tas Selempang<br>Pria</p>
             </div>
 
             <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
               <div class="text-3xl mb-2">👡</div>
-              <p class="text-xs font-medium">
-                Flat Shoes<br>Wanita
-              </p>
+              <p class="text-xs font-medium">Flat Shoes<br>Wanita</p>
             </div>
 
           </div>
-
         </div>
 
 
-        <!-- Top Up dan Tagihan -->
+        <!-- TOP UP DAN TAGIHAN -->
         <div>
 
           <div class="flex items-center gap-2 mb-3">
-
             <h3 class="text-lg font-bold text-slate-800">
               Top Up &amp; Tagihan
             </h3>
@@ -218,7 +209,6 @@
             <span class="text-xs font-semibold market-green">
               Lihat Semua
             </span>
-
           </div>
 
           <div class="border rounded-xl overflow-hidden">
@@ -275,15 +265,13 @@
               </button>
 
             </div>
-
           </div>
-
         </div>
 
       </div>
 
 
-      <!-- Menu Kategori -->
+      <!-- MENU KATEGORI -->
       <div class="flex gap-2 overflow-x-auto scrollbar-hide mt-6 pt-1">
 
         <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
@@ -319,7 +307,7 @@
     </section>
 
 
-    <!-- Banner Katalog -->
+    <!-- BANNER KATALOG -->
     <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 rounded-2xl p-6 md:p-8 text-white mb-6 shadow-lg">
 
       <h2 class="text-2xl md:text-3xl font-extrabold mb-2">
@@ -327,13 +315,13 @@
       </h2>
 
       <p class="text-indigo-100 max-w-xl text-sm md:text-base">
-        Belanja mudah, cepat, dan terhubung langsung ke WhatsApp.
+        Temukan produk pilihan dengan mudah dan lakukan pemesanan langsung melalui WhatsApp.
       </p>
 
     </div>
 
 
-    <!-- Judul Katalog -->
+    <!-- JUDUL KATALOG -->
     <div class="flex items-center justify-between mb-4">
 
       <h3 class="text-xl font-bold">
@@ -347,24 +335,22 @@
     </div>
 
 
-    <!-- Loading Produk -->
+    <!-- LOADING PRODUK -->
     <div
       id="product-loading"
       class="text-center py-16 text-slate-500 bg-white rounded-xl border"
     >
-
       <div class="inline-block animate-spin text-3xl mb-3">
         ⏳
       </div>
 
       <p class="font-medium">
-        Memuat katalog produk dari Google Sheets...
+        Memuat katalog produk...
       </p>
-
     </div>
 
 
-    <!-- Daftar Produk -->
+    <!-- DAFTAR PRODUK -->
     <div
       id="product-grid"
       class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 hidden"
@@ -373,21 +359,66 @@
   </main>
 
 
-  <!-- Footer Website -->
+  <!-- FOOTER DAN INSTAGRAM -->
   <footer class="bg-white border-t py-6 text-center text-xs text-slate-500">
 
     <p>
       © 2026 Tokoku. All rights reserved.
     </p>
 
-    <p class="mt-1 font-semibold text-indigo-600">
-      Powered by wahyuramadhan.com
+    <!-- TOMBOL INSTAGRAM YANG BISA DIKLIK -->
+    <div class="flex justify-center mt-4 px-4">
+
+      <a
+        href="https://www.instagram.com/saufiani150/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Kunjungi Instagram @saufiani150"
+        class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 px-5 py-3 font-semibold text-white shadow-md transition transform hover:scale-105"
+      >
+
+        <!-- IKON INSTAGRAM -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+
+          <circle cx="12" cy="12" r="4"></circle>
+
+          <circle
+            cx="17.5"
+            cy="6.5"
+            r="1"
+            fill="currentColor"
+            stroke="none"
+          ></circle>
+        </svg>
+
+        <span>
+          Ikuti Instagram @saufiani150
+        </span>
+
+      </a>
+
+    </div>
+
+    <p class="mt-3">
+      Terima kasih telah berkunjung ke Tokoku.
     </p>
 
   </footer>
 
 
-  <!-- Modal Keranjang Belanja -->
+  <!-- MODAL KERANJANG BELANJA -->
   <div
     id="cart-modal"
     class="fixed inset-0 bg-black/50 z-30 hidden justify-end"
@@ -404,6 +435,7 @@
         <button
           onclick="toggleCart()"
           class="text-slate-400 hover:text-slate-700 text-2xl font-bold"
+          aria-label="Tutup keranjang"
         >
           &times;
         </button>
@@ -411,14 +443,14 @@
       </div>
 
 
-      <!-- Item Keranjang -->
+      <!-- ITEM KERANJANG -->
       <div
         id="cart-items"
         class="flex-1 py-4 space-y-3 overflow-y-auto"
       ></div>
 
 
-      <!-- Total dan Checkout -->
+      <!-- CHECKOUT -->
       <div class="border-t pt-4 space-y-4">
 
         <div class="flex justify-between text-lg font-bold text-slate-900">
@@ -432,7 +464,6 @@
         </div>
 
 
-        <!-- Form Checkout -->
         <form
           id="checkout-form"
           onsubmit="handleCheckout(event)"
@@ -507,34 +538,28 @@
   </div>
 
 
-  <!-- JavaScript -->
+  <!-- JAVASCRIPT -->
   <script>
 
-    // =====================================
-    // KONFIGURASI WEBSITE
-    // =====================================
+    /*
+      PENGATURAN TOKO
 
-    // Masukkan URL Google Apps Script yang berakhiran /exec.
+      1. Ganti API_URL dengan URL Google Apps Script milik Anda.
+      2. Ganti WA_ADMIN dengan nomor WhatsApp admin.
+      3. Format nomor WhatsApp: 628xxxxxxxxxx.
+    */
+
     const API_URL = "https://script.google.com/macros/s/AKfycbxEuMvN7S2cVX93SQTErGRHneYLmuFlG55YZtnMqbb6pINiWNzUvjEao9ZOf5yJ5SGz/exec";
 
-    // Ganti dengan nomor WhatsApp admin.
-    // Gunakan format 62, tanpa tanda + dan tanpa angka 0 di depan.
     const WA_ADMIN = "6287844263501";
 
 
-    // =====================================
     // DATA PRODUK DAN KERANJANG
-    // =====================================
-
     let products = [];
-
     let cart = [];
 
 
-    // =====================================
     // MEMUAT PRODUK DARI GOOGLE SHEETS
-    // =====================================
-
     async function loadProducts() {
 
       try {
@@ -546,249 +571,137 @@
           throw new Error("URL Google Apps Script belum diatur.");
         }
 
-        const res = await fetch(API_URL);
+        const response = await fetch(API_URL);
 
-        if (!res.ok) {
+        if (!response.ok) {
           throw new Error("Gagal mengambil data produk.");
         }
 
-        const json = await res.json();
+        const json = await response.json();
 
-        products = Array.isArray(json) ? json : json.data;
-
-        if (!Array.isArray(products)) {
-          throw new Error("Format data produk tidak sesuai.");
-        }
+        products = Array.isArray(json)
+          ? json
+          : (json.data || []);
 
         renderProducts();
 
-      } catch (err) {
-
-        console.error("Gagal memuat produk:", err);
+      } catch (error) {
 
         document.getElementById("product-loading").innerHTML = `
-          <p class="text-red-500 font-semibold">
-            Gagal memuat produk dari database.
-          </p>
-          <p class="text-sm text-slate-500 mt-2">
-            Periksa URL Google Apps Script Anda.
-          </p>
-          <button
-            onclick="loadDemoProducts()"
-            class="mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
-          >
-            Tampilkan Produk Contoh
-          </button>
+          <div class="px-4">
+            <p class="text-amber-600 font-semibold mb-2">
+              Katalog produk belum dapat dimuat.
+            </p>
+
+            <p class="text-sm">
+              Pastikan URL Google Apps Script sudah benar dan layanan
+              database sudah dipublikasikan.
+            </p>
+          </div>
         `;
+
+        console.error(error);
 
       }
 
     }
 
 
-    // =====================================
-    // PRODUK CONTOH
-    // =====================================
-
-    function loadDemoProducts() {
-
-      products = [
-
-        {
-          id: 1,
-          nama: "Keripik Pisang",
-          harga: 15000,
-          foto: "https://images.unsplash.com/photo-1621939514649-280e2aa4d5c0?auto=format&fit=crop&w=600&q=80",
-          kategori: "Makanan Kering",
-          deskripsi: "Keripik pisang renyah untuk camilan.",
-          stok: 25
-        },
-
-        {
-          id: 2,
-          nama: "Tas Selempang",
-          harga: 85000,
-          foto: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&q=80",
-          kategori: "Tas",
-          deskripsi: "Tas selempang praktis untuk sehari-hari.",
-          stok: 12
-        },
-
-        {
-          id: 3,
-          nama: "Sepatu Wanita",
-          harga: 120000,
-          foto: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
-          kategori: "Sepatu",
-          deskripsi: "Sepatu wanita dengan desain modern.",
-          stok: 10
-        },
-
-        {
-          id: 4,
-          nama: "Headphone",
-          harga: 175000,
-          foto: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
-          kategori: "Elektronik",
-          deskripsi: "Headphone untuk mendengarkan musik.",
-          stok: 8
-        },
-
-        {
-          id: 5,
-          nama: "Figure Robot",
-          harga: 95000,
-          foto: "https://images.unsplash.com/photo-1608889825103-eb5ed706fc64?auto=format&fit=crop&w=600&q=80",
-          kategori: "Figure",
-          deskripsi: "Figure koleksi untuk penggemar robot.",
-          stok: 15
-        },
-
-        {
-          id: 6,
-          nama: "Camilan Kacang",
-          harga: 12000,
-          foto: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=600&q=80",
-          kategori: "Makanan Kering",
-          deskripsi: "Camilan kacang untuk teman bersantai.",
-          stok: 30
-        }
-
-      ];
-
-      renderProducts();
-
-    }
-
-
-    // =====================================
     // MENAMPILKAN PRODUK
-    // =====================================
-
     function renderProducts(list = products) {
 
       const grid = document.getElementById("product-grid");
 
       grid.innerHTML = "";
 
-      list.forEach(p => {
+      if (list.length === 0) {
 
-        const card = document.createElement("div");
+        grid.innerHTML = `
+          <div class="col-span-full text-center bg-white rounded-xl border p-8">
+            <p class="text-slate-500">
+              Produk tidak ditemukan.
+            </p>
+          </div>
+        `;
 
-        card.className =
-          "bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col";
+      } else {
 
+        list.forEach(product => {
 
-        const image = document.createElement("img");
+          const productId = JSON.stringify(product.id);
 
-        image.src = p.foto || "https://placehold.co/300x300?text=Foto+Produk";
+          const productName = escapeHTML(product.nama || "Produk");
 
-        image.alt = p.nama || "Produk";
+          const category = escapeHTML(product.kategori || "Umum");
 
-        image.className = "h-40 md:h-48 w-full object-cover bg-slate-100";
+          const description = escapeHTML(product.deskripsi || "");
 
-        image.loading = "lazy";
+          const photo = escapeHTML(
+            product.foto || "https://placehold.co/300x300?text=Foto+Produk"
+          );
 
-        image.onerror = function () {
-          this.onerror = null;
-          this.src = "https://placehold.co/300x300?text=Foto+Produk";
-        };
+          const price = Number(product.harga || 0);
 
-        card.appendChild(image);
+          const stock = Number(product.stok || 0);
 
+          grid.innerHTML += `
 
-        const content = document.createElement("div");
+            <div class="bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
 
-        content.className =
-          "p-4 md:p-5 flex-1 flex flex-col justify-between";
+              <img
+                src="${photo}"
+                class="h-40 md:h-48 w-full object-cover"
+                alt="${productName}"
+                onerror="this.src='https://placehold.co/300x300?text=Foto+Produk'"
+              >
 
+              <div class="p-4 md:p-5 flex-1 flex flex-col justify-between">
 
-        const info = document.createElement("div");
+                <div>
 
+                  <span class="text-xs font-semibold bg-green-50 text-green-700 px-2.5 py-1 rounded-full">
+                    ${category}
+                  </span>
 
-        const category = document.createElement("span");
+                  <h4 class="font-bold text-slate-900 text-base md:text-lg mt-2">
+                    ${productName}
+                  </h4>
 
-        category.className =
-          "text-xs font-semibold bg-green-50 text-green-700 px-2.5 py-1 rounded-full";
+                  <p class="text-xs text-slate-500 mt-1">
+                    ${description}
+                  </p>
 
-        category.textContent = p.kategori || "Umum";
+                  <p class="text-xs text-slate-400 mt-1">
+                    Sisa Stok:
+                    <strong class="text-slate-600">${stock}</strong>
+                  </p>
 
-        info.appendChild(category);
+                </div>
 
+                <div class="mt-4 pt-3 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-2">
 
-        const name = document.createElement("h4");
+                  <span class="font-extrabold text-green-700 text-base">
+                    Rp ${price.toLocaleString("id-ID")}
+                  </span>
 
-        name.className =
-          "font-bold text-slate-900 text-base md:text-lg mt-2";
+                  <button
+                    onclick="addToCart(${productId})"
+                    class="bg-green-600 text-white text-xs font-bold px-3.5 py-2 rounded-lg hover:bg-green-700 transition"
+                  >
+                    + Keranjang
+                  </button>
 
-        name.textContent = p.nama || "Produk";
+                </div>
 
-        info.appendChild(name);
+              </div>
 
+            </div>
 
-        const description = document.createElement("p");
+          `;
 
-        description.className = "text-xs text-slate-500 mt-1";
-
-        description.textContent = p.deskripsi || "";
-
-        info.appendChild(description);
-
-
-        const stock = document.createElement("p");
-
-        stock.className = "text-xs text-slate-400 mt-1";
-
-        stock.textContent = "Sisa Stok: " + (p.stok || 0);
-
-        info.appendChild(stock);
-
-        content.appendChild(info);
-
-
-        const bottom = document.createElement("div");
-
-        bottom.className =
-          "mt-4 pt-3 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-2";
-
-
-        const price = document.createElement("span");
-
-        price.className = "font-extrabold text-green-700 text-base";
-
-        price.textContent =
-          "Rp " + Number(p.harga || 0).toLocaleString("id-ID");
-
-        bottom.appendChild(price);
-
-
-        const button = document.createElement("button");
-
-        button.className =
-          "bg-green-600 text-white text-xs font-bold px-3.5 py-2 rounded-lg hover:bg-green-700 transition";
-
-        button.textContent = "+ Keranjang";
-
-        button.disabled = Number(p.stok || 0) <= 0;
-
-        if (button.disabled) {
-          button.textContent = "Stok Habis";
-        }
-
-        button.addEventListener("click", function () {
-          addToCart(p.id);
         });
 
-        bottom.appendChild(button);
-
-        content.appendChild(bottom);
-
-        card.appendChild(content);
-
-        grid.appendChild(card);
-
-      });
-
+      }
 
       document.getElementById("product-loading").classList.add("hidden");
 
@@ -797,10 +710,27 @@
     }
 
 
-    // =====================================
-    // PENCARIAN PRODUK
-    // =====================================
+    // MELINDUNGI TEKS YANG DITAMPILKAN DARI HTML YANG TIDAK DIINGINKAN
+    function escapeHTML(value) {
 
+      return String(value).replace(/[&<>"']/g, function (character) {
+
+        const entities = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        };
+
+        return entities[character];
+
+      });
+
+    }
+
+
+    // PENCARIAN PRODUK
     function searchProducts() {
 
       const keyword = document
@@ -809,13 +739,23 @@
         .toLowerCase()
         .trim();
 
-      const filtered = products.filter(p =>
+      const filtered = products.filter(product =>
 
-        String(p.nama || "").toLowerCase().includes(keyword) ||
+        String(product.nama || "")
+          .toLowerCase()
+          .includes(keyword)
 
-        String(p.kategori || "").toLowerCase().includes(keyword) ||
+        ||
 
-        String(p.deskripsi || "").toLowerCase().includes(keyword)
+        String(product.kategori || "")
+          .toLowerCase()
+          .includes(keyword)
+
+        ||
+
+        String(product.deskripsi || "")
+          .toLowerCase()
+          .includes(keyword)
 
       );
 
@@ -824,9 +764,10 @@
     }
 
 
+    // PENCARIAN DENGAN TOMBOL ENTER
     document
       .getElementById("search-input")
-      .addEventListener("keydown", function(event) {
+      .addEventListener("keydown", function (event) {
 
         if (event.key === "Enter") {
           searchProducts();
@@ -835,32 +776,30 @@
       });
 
 
-    // =====================================
     // MENAMBAHKAN PRODUK KE KERANJANG
-    // =====================================
-
     function addToCart(id) {
 
-      const product = products.find(p => p.id == id);
+      const product = products.find(item => item.id == id);
 
       if (!product) {
-        alert("Produk tidak ditemukan.");
         return;
       }
 
-      if (Number(product.stok || 0) <= 0) {
-        alert("Maaf, stok produk sedang habis.");
-        return;
-      }
+      const stock = Number(product.stok || 0);
 
       const existing = cart.find(item => item.id == id);
 
-      if (existing) {
+      const quantity = existing ? existing.qty : 0;
 
-        if (existing.qty >= Number(product.stok)) {
-          alert("Jumlah pembelian melebihi stok yang tersedia.");
-          return;
-        }
+      if (quantity >= stock) {
+
+        alert("Jumlah produk sudah mencapai batas stok.");
+
+        return;
+
+      }
+
+      if (existing) {
 
         existing.qty += 1;
 
@@ -878,18 +817,11 @@
     }
 
 
-    // =====================================
     // MEMPERBARUI TAMPILAN KERANJANG
-    // =====================================
-
     function updateCartUI() {
 
-      const count = cart.reduce((total, item) => {
-        return total + item.qty;
-      }, 0);
-
-      document.getElementById("cart-count").innerText = count;
-
+      document.getElementById("cart-count").innerText =
+        cart.reduce((total, item) => total + item.qty, 0);
 
       const container = document.getElementById("cart-items");
 
@@ -897,80 +829,52 @@
 
       let total = 0;
 
-
       if (cart.length === 0) {
 
         container.innerHTML = `
-          <div class="text-center py-12">
+          <div class="text-center py-10 text-slate-400">
             <div class="text-5xl mb-3">🛒</div>
-            <p class="font-semibold text-slate-700">
-              Keranjang masih kosong
-            </p>
-            <p class="text-sm text-slate-400 mt-2">
-              Silakan pilih produk terlebih dahulu.
-            </p>
+            <p>Keranjang belanja masih kosong.</p>
           </div>
         `;
 
       }
 
-
       cart.forEach((item, index) => {
 
-        total += Number(item.harga) * item.qty;
+        total += Number(item.harga || 0) * item.qty;
 
+        const safeName = escapeHTML(item.nama || "Produk");
 
-        const row = document.createElement("div");
+        container.innerHTML += `
 
-        row.className =
-          "flex justify-between items-center bg-slate-50 p-3 rounded-xl text-sm border";
+          <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl text-sm border">
 
+            <div>
 
-        const info = document.createElement("div");
+              <p class="font-semibold text-slate-800">
+                ${safeName}
+              </p>
 
+              <p class="text-xs text-slate-500">
+                Rp ${Number(item.harga || 0).toLocaleString("id-ID")}
+                × ${item.qty}
+              </p>
 
-        const name = document.createElement("p");
+            </div>
 
-        name.className = "font-semibold text-slate-800";
+            <button
+              onclick="removeFromCart(${index})"
+              class="text-red-500 hover:text-red-700 text-xs font-bold"
+            >
+              Hapus
+            </button>
 
-        name.textContent = item.nama;
+          </div>
 
-        info.appendChild(name);
-
-
-        const price = document.createElement("p");
-
-        price.className = "text-xs text-slate-500";
-
-        price.textContent =
-          "Rp " +
-          Number(item.harga).toLocaleString("id-ID") +
-          " x " +
-          item.qty;
-
-        info.appendChild(price);
-
-
-        const remove = document.createElement("button");
-
-        remove.className =
-          "text-red-500 hover:text-red-700 text-xs font-bold";
-
-        remove.textContent = "Hapus";
-
-        remove.addEventListener("click", function() {
-          removeFromCart(index);
-        });
-
-
-        row.appendChild(info);
-
-        row.appendChild(remove);
-
-        container.appendChild(row);
+        `;
 
       });
-
 
       document.getElementById("cart-total").innerText =
         "Rp " + total.toLocaleString("id-ID");
@@ -978,10 +882,7 @@
     }
 
 
-    // =====================================
     // MENGHAPUS PRODUK DARI KERANJANG
-    // =====================================
-
     function removeFromCart(index) {
 
       cart.splice(index, 1);
@@ -991,10 +892,7 @@
     }
 
 
-    // =====================================
     // MEMBUKA DAN MENUTUP KERANJANG
-    // =====================================
-
     function toggleCart() {
 
       const modal = document.getElementById("cart-modal");
@@ -1006,14 +904,10 @@
     }
 
 
-    // =====================================
     // CHECKOUT MELALUI WHATSAPP
-    // =====================================
-
     async function handleCheckout(event) {
 
       event.preventDefault();
-
 
       if (cart.length === 0) {
 
@@ -1023,136 +917,126 @@
 
       }
 
-
       if (
-        WA_ADMIN === "6281234567890" ||
-        !/^62\d{8,15}$/.test(WA_ADMIN)
+        !WA_ADMIN ||
+        WA_ADMIN === "6281234567890"
       ) {
 
-        alert(
-          "Silakan ganti WA_ADMIN di dalam kode HTML dengan nomor WhatsApp admin toko yang aktif."
-        );
+        alert("Silakan ganti WA_ADMIN dengan nomor WhatsApp admin toko.");
 
         return;
 
       }
 
-
       const button = document.getElementById("btn-submit");
 
-      button.innerText = "Mencatat Pesanan...";
+      button.innerText = "Menyiapkan Pesanan...";
 
       button.disabled = true;
 
-
       const invoiceCode =
-        "INV-" + Date.now().toString().slice(-8);
-
+        "INV-" + Date.now().toString().slice(-6);
 
       const payload = {
 
-        invoice: invoiceCode,
+        nama: document.getElementById("cust-name").value,
 
-        nama: document.getElementById("cust-name").value.trim(),
+        whatsapp: document.getElementById("cust-phone").value,
 
-        whatsapp: document.getElementById("cust-phone").value.trim(),
-
-        alamat: document.getElementById("cust-address").value.trim(),
+        alamat: document.getElementById("cust-address").value,
 
         items: cart.map(item => ({
           id: item.id,
           nama: item.nama,
-          harga: Number(item.harga),
-          qty: item.qty,
-          subtotal: Number(item.harga) * item.qty
+          harga: Number(item.harga || 0),
+          qty: item.qty
         })),
 
-        total: cart.reduce((total, item) => {
-          return total + Number(item.harga) * item.qty;
-        }, 0)
+        total: cart.reduce(
+          (sum, item) =>
+            sum + (Number(item.harga || 0) * item.qty),
+          0
+        )
 
       };
 
 
       try {
 
-        // Mengirim pesanan ke Google Apps Script.
+        // Mengirim pesanan ke Google Sheets jika API telah diatur.
         if (
           API_URL &&
           API_URL !== "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DISINI"
         ) {
 
           fetch(API_URL, {
+
             method: "POST",
+
             mode: "no-cors",
+
             headers: {
-              "Content-Type": "text/plain;charset=utf-8"
+              "Content-Type": "text/plain"
             },
+
             body: JSON.stringify(payload)
+
           }).catch(error => {
-            console.error("Gagal mengirim data ke Apps Script:", error);
+            console.error("Pengiriman ke database gagal:", error);
           });
 
         }
 
 
-        // Membuat pesan WhatsApp.
-        let textWA = "Halo Admin Tokoku, saya ingin memesan produk.\n\n";
+        // MENYUSUN PESAN WHATSAPP
+        let message = "Halo Admin, saya ingin memesan produk:\n\n";
 
-        textWA += "Nomor Pesanan: " + invoiceCode + "\n";
+        message += `🧾 Invoice: ${invoiceCode}\n`;
 
-        textWA += "Nama: " + payload.nama + "\n";
+        message += `👤 Nama: ${payload.nama}\n`;
 
-        textWA += "Nomor WhatsApp: " + payload.whatsapp + "\n";
+        message += `📱 No. WhatsApp: ${payload.whatsapp}\n`;
 
-        textWA += "Alamat: " + payload.alamat + "\n\n";
+        message += `📍 Alamat: ${payload.alamat}\n\n`;
 
-        textWA += "DAFTAR BELANJA:\n";
-
+        message += "🛍️ Daftar Belanja:\n";
 
         payload.items.forEach(item => {
 
-          textWA +=
-            "- " +
-            item.nama +
-            " (" +
-            item.qty +
-            " x Rp " +
-            Number(item.harga).toLocaleString("id-ID") +
-            ") = Rp " +
-            Number(item.subtotal).toLocaleString("id-ID") +
-            "\n";
+          message +=
+            `• ${item.nama} (${item.qty}x) = Rp ` +
+            `${(item.harga * item.qty).toLocaleString("id-ID")}\n`;
 
         });
 
+        message +=
+          `\n💰 Total Pembayaran: Rp ${payload.total.toLocaleString("id-ID")}\n\n`;
 
-        textWA +=
-          "\nTotal Pembayaran: Rp " +
-          payload.total.toLocaleString("id-ID");
-
-        textWA +=
-          "\n\nMohon konfirmasi pesanan, ongkos kirim, dan metode pembayaran. Terima kasih.";
+        message +=
+          "Mohon informasi nomor rekening dan total ongkirnya. Terima kasih!";
 
 
+        // MEMBUKA WHATSAPP
         const whatsappURL =
-          "https://wa.me/" +
-          WA_ADMIN +
-          "?text=" +
-          encodeURIComponent(textWA);
+          `https://wa.me/${WA_ADMIN}?text=${encodeURIComponent(message)}`;
+
+        window.open(whatsappURL, "_blank");
 
 
-        window.open(
-          whatsappURL,
-          "_blank",
-          "noopener,noreferrer"
-        );
+        // MENGOSONGKAN KERANJANG
+        cart = [];
 
+        updateCartUI();
+
+        toggleCart();
+
+        event.target.reset();
 
       } catch (error) {
 
-        console.error("Kesalahan checkout:", error);
-
         alert("Gagal memproses pesanan. Silakan coba kembali.");
+
+        console.error(error);
 
       } finally {
 
@@ -1165,10 +1049,7 @@
     }
 
 
-    // =====================================
-    // INISIALISASI WEBSITE
-    // =====================================
-
+    // MEMULAI APLIKASI
     updateCartUI();
 
     loadProducts();
