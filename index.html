@@ -1,2020 +1,1179 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokoku - Toko Online</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <title>toko shofy store - Toko Online</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    .market-green {
+      color: #03ac0e;
+    }
 
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
+    .market-bg {
+      background-color: #03ac0e;
+    }
 
-        .market-green {
-            color: #03ac0e;
-        }
+    .category-card {
+      min-width: 112px;
+    }
 
-        .market-bg {
-            background-color: #03ac0e;
-        }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
 
-        .category-card {
-            min-width: 112px;
-        }
-
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 190px;
-            object-fit: cover;
-        }
-
-        .product-card {
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-    </style>
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
-    <!-- ===================================== -->
-    <!-- HEADER / NAVBAR                       -->
-    <!-- ===================================== -->
+  <!-- Navbar -->
+  <header class="bg-white border-b sticky top-0 z-20 shadow-sm">
 
-    <header class="bg-white border-b sticky top-0 z-20 shadow-sm">
+    <div class="border-b border-slate-100 hidden md:block">
+      <div class="max-w-6xl mx-auto px-4 py-2 flex justify-between text-xs text-slate-500">
+        <span>Download Aplikasi Toko</span>
 
-        <!-- Menu bagian atas -->
-        <div class="border-b border-slate-100 hidden md:block">
-            <div class="max-w-6xl mx-auto px-4 py-2 flex justify-between text-xs text-slate-500">
+        <div class="flex gap-5">
+          <span>Tentang Toko</span>
+          <span>Mitra Toko</span>
+          <span>Mulai Berjualan</span>
+          <span>Promo</span>
+          <span>Bantuan</span>
+        </div>
+      </div>
+    </div>
 
-                <span>Selamat datang di Tokoku</span>
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center gap-3">
 
-                <div class="flex gap-5">
-                    <span>Tentang Toko</span>
-                    <span>Mitra Toko</span>
-                    <span>Mulai Berjualan</span>
-                    <span>Bantuan</span>
-                </div>
-
-            </div>
+      <div class="flex items-center justify-between gap-5">
+        <div class="flex items-center">
+          <span class="text-3xl font-extrabold tracking-tight market-green">
+            tokoku
+          </span>
         </div>
 
-        <!-- Logo, pencarian, keranjang -->
-        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center gap-3">
+        <span class="text-sm text-slate-600 hidden md:inline">
+          Kategori
+        </span>
+      </div>
 
-            <!-- Logo -->
-            <div class="flex items-center justify-between gap-5">
+      <div class="flex-1 flex items-center gap-3">
 
-                <a href="#" class="text-3xl font-extrabold tracking-tight market-green">
-                    tokoku
-                </a>
+        <div class="relative flex-1">
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Cari di Tokoku"
+            class="w-full border border-slate-300 rounded-md px-3 py-2 text-sm outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
+          >
 
-                <span class="text-sm text-slate-600 hidden md:inline">
-                    Kategori
-                </span>
-
-            </div>
-
-            <!-- Pencarian -->
-            <div class="flex-1 flex items-center gap-3">
-
-                <div class="relative flex-1">
-
-                    <input
-                        id="search-input"
-                        type="search"
-                        placeholder="Cari produk di Tokoku..."
-                        class="w-full border border-slate-300 rounded-md px-3 py-2 text-sm outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
-                    >
-
-                    <button
-                        onclick="searchProducts()"
-                        class="absolute right-0 top-0 h-full px-4 text-slate-500 border-l bg-slate-50 rounded-r-md"
-                        aria-label="Cari produk"
-                    >
-                        🔍
-                    </button>
-
-                </div>
-
-                <!-- Tombol keranjang -->
-                <button
-                    onclick="toggleCart()"
-                    class="relative p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
-                    aria-label="Keranjang belanja"
-                >
-                    <span class="text-xl">🛒</span>
-
-                    <span
-                        id="cart-count"
-                        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                    >
-                        0
-                    </span>
-                </button>
-
-            </div>
-
-            <!-- Tombol akun -->
-            <div class="flex items-center justify-end gap-2">
-
-                <button
-                    onclick="showAccountMessage()"
-                    class="border border-green-600 market-green font-semibold text-sm px-4 py-2 rounded-lg"
-                >
-                    Masuk
-                </button>
-
-                <button
-                    onclick="showAccountMessage()"
-                    class="market-bg text-white font-semibold text-sm px-4 py-2 rounded-lg hover:bg-green-700"
-                >
-                    Daftar
-                </button>
-
-            </div>
-
+          <button
+            onclick="searchProducts()"
+            class="absolute right-0 top-0 h-full px-4 text-slate-500 border-l bg-slate-50 rounded-r-md"
+            aria-label="Cari"
+          >
+            ⌕
+          </button>
         </div>
 
-        <!-- Menu navigasi -->
-        <div class="max-w-6xl mx-auto px-4 pb-3 hidden md:flex gap-4 overflow-x-auto whitespace-nowrap text-xs text-slate-500">
-
-            <a href="#produk" class="hover:text-green-600">
-                Produk Pilihan
-            </a>
-
-            <a href="#produk" class="hover:text-green-600">
-                Produk Terbaru
-            </a>
-
-            <a href="#kategori" class="hover:text-green-600">
-                Kategori
-            </a>
-
-            <a href="#topup" class="hover:text-green-600">
-                Top Up
-            </a>
-
-            <a href="#footer" class="hover:text-green-600">
-                Tentang Kami
-            </a>
-
-        </div>
-
-    </header>
-
-
-    <!-- ===================================== -->
-    <!-- KONTEN UTAMA                          -->
-    <!-- ===================================== -->
-
-    <main class="max-w-6xl mx-auto px-4 py-5 md:py-7 flex-1 w-full">
-
-
-        <!-- ===================================== -->
-        <!-- BANNER UTAMA                          -->
-        <!-- ===================================== -->
-
-        <section class="rounded-xl overflow-hidden mb-6 shadow-sm">
-
-            <div class="bg-gradient-to-r from-amber-100 via-yellow-50 to-amber-200 min-h-48 md:min-h-60 flex flex-col md:flex-row items-center justify-between p-6 md:p-10 gap-5">
-
-                <div class="text-center md:text-left">
-
-                    <span class="inline-block bg-green-700 text-white text-xs md:text-sm font-extrabold px-3 py-1 rounded-full mb-3">
-                        SELAMAT DATANG
-                    </span>
-
-                    <h1 class="text-2xl md:text-4xl font-extrabold mb-3 text-slate-800">
-                        Belanja Mudah di Tokoku
-                    </h1>
-
-                    <p class="text-sm md:text-base text-slate-600 max-w-lg">
-                        Temukan berbagai produk pilihan dengan mudah,
-                        cepat, dan praktis hanya di toko online kami.
-                    </p>
-
-                    <a
-                        href="#produk"
-                        class="inline-block mt-5 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-lg text-sm"
-                    >
-                        Belanja Sekarang
-                    </a>
-
-                </div>
-
-                <div class="text-7xl md:text-9xl" aria-hidden="true">
-                    🛍️ 🎁
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ===================================== -->
-        <!-- KATEGORI DAN TOP UP                   -->
-        <!-- ===================================== -->
-
-        <section
-            id="kategori"
-            class="bg-white border border-slate-100 rounded-2xl p-4 md:p-5 shadow-sm mb-6"
+        <button
+          onclick="toggleCart()"
+          class="relative p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
+          aria-label="Keranjang"
         >
+          🛒
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <span
+            id="cart-count"
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+          >
+            0
+          </span>
+        </button>
 
+      </div>
 
-                <!-- Kategori pilihan -->
-                <div>
+      <div class="flex items-center justify-end gap-2">
+        <button class="border border-green-600 market-green font-semibold text-sm px-4 py-2 rounded-lg">
+          Masuk
+        </button>
 
-                    <h2 class="text-lg font-bold text-slate-800 mb-4">
-                        Kategori Pilihan
-                    </h2>
+        <button class="market-bg text-white font-semibold text-sm px-4 py-2 rounded-lg hover:bg-green-700">
+          Daftar
+        </button>
+      </div>
 
-                    <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
+    </div>
 
-                        <button
-                            onclick="filterCategory('Makanan Kering')"
-                            class="category-card border rounded-xl p-3 text-center hover:shadow-sm hover:border-green-500"
-                        >
-                            <div class="text-3xl mb-2">🍪</div>
-                            <p class="text-xs font-medium">
-                                Makanan<br>Kering
-                            </p>
-                        </button>
+    <div class="max-w-6xl mx-auto px-4 pb-3 hidden md:flex gap-4 overflow-x-auto whitespace-nowrap text-xs text-slate-500">
+      <span>Produk Pilihan</span>
+      <span>Produk Terbaru</span>
+      <span>Produk Terlaris</span>
+      <span>Promo Spesial</span>
+      <span>Rekomendasi</span>
+    </div>
 
-                        <button
-                            onclick="filterCategory('Figure')"
-                            class="category-card border rounded-xl p-3 text-center hover:shadow-sm hover:border-green-500"
-                        >
-                            <div class="text-3xl mb-2">🤖</div>
-                            <p class="text-xs font-medium">
-                                Figure
-                            </p>
-                        </button>
+  </header>
 
-                        <button
-                            onclick="filterCategory('Tas')"
-                            class="category-card border rounded-xl p-3 text-center hover:shadow-sm hover:border-green-500"
-                        >
-                            <div class="text-3xl mb-2">👜</div>
-                            <p class="text-xs font-medium">
-                                Tas
-                            </p>
-                        </button>
 
-                        <button
-                            onclick="filterCategory('Sepatu')"
-                            class="category-card border rounded-xl p-3 text-center hover:shadow-sm hover:border-green-500"
-                        >
-                            <div class="text-3xl mb-2">👡</div>
-                            <p class="text-xs font-medium">
-                                Sepatu
-                            </p>
-                        </button>
+  <!-- Banner dan Katalog Produk -->
+  <main class="max-w-6xl mx-auto px-4 py-5 md:py-7 flex-1 w-full">
 
-                        <button
-                            onclick="filterCategory('Elektronik')"
-                            class="category-card border rounded-xl p-3 text-center hover:shadow-sm hover:border-green-500"
-                        >
-                            <div class="text-3xl mb-2">🎧</div>
-                            <p class="text-xs font-medium">
-                                Elektronik
-                            </p>
-                        </button>
+    <!-- Banner Promosi -->
+    <div class="rounded-xl overflow-hidden mb-5 md:mb-6 shadow-sm">
 
-                    </div>
+      <div class="bg-gradient-to-r from-amber-100 via-yellow-50 to-amber-200 min-h-48 md:min-h-60 flex flex-col md:flex-row items-center justify-between p-6 md:p-10 gap-5">
 
-                </div>
+        <div class="text-center md:text-left">
 
+          <span class="inline-block bg-green-700 text-white text-xs md:text-sm font-extrabold px-3 py-1 rounded-full mb-3">
+            PROMO SPESIAL
+          </span>
 
-                <!-- Top up pulsa -->
-                <div id="topup">
+          <h2 class="text-2xl md:text-4xl font-extrabold mb-2 text-red-700">
+            Belanja Untuk Hari Spesial
+          </h2>
 
-                    <div class="flex items-center gap-2 mb-3">
-
-                        <h2 class="text-lg font-bold text-slate-800">
-                            Top Up &amp; Tagihan
-                        </h2>
-
-                    </div>
-
-                    <div class="border rounded-xl overflow-hidden">
-
-                        <div class="grid grid-cols-4 text-xs text-center bg-slate-50 border-b">
-
-                            <button
-                                type="button"
-                                onclick="selectTopupType('Pulsa', this)"
-                                class="topup-tab py-3 border-b-2 border-green-600 font-semibold market-green"
-                            >
-                                Pulsa
-                            </button>
-
-                            <button
-                                type="button"
-                                onclick="selectTopupType('Paket Data', this)"
-                                class="topup-tab py-3 text-slate-500"
-                            >
-                                Paket Data
-                            </button>
-
-                            <button
-                                type="button"
-                                onclick="selectTopupType('Token Listrik', this)"
-                                class="topup-tab py-3 text-slate-500"
-                            >
-                                Listrik
-                            </button>
-
-                            <button
-                                type="button"
-                                onclick="selectTopupType('Lainnya', this)"
-                                class="topup-tab py-3 text-slate-500"
-                            >
-                                Lainnya
-                            </button>
-
-                        </div>
-
-                        <form
-                            class="p-3 grid grid-cols-1 sm:grid-cols-3 gap-3"
-                            onsubmit="submitTopup(event)"
-                        >
-
-                            <label class="text-xs text-slate-600">
-
-                                Nomor Tujuan
-
-                                <input
-                                    type="text"
-                                    id="topup-number"
-                                    placeholder="Masukkan nomor"
-                                    required
-                                    class="mt-1 w-full border rounded-lg px-2 py-2 text-sm outline-none focus:border-green-500"
-                                >
-
-                            </label>
-
-                            <label class="text-xs text-slate-600">
-
-                                Nominal
-
-                                <select
-                                    id="topup-amount"
-                                    required
-                                    class="mt-1 w-full border rounded-lg px-2 py-2 text-sm bg-white"
-                                >
-
-                                    <option value="">
-                                        Pilih nominal
-                                    </option>
-
-                                    <option value="10000">
-                                        Rp 10.000
-                                    </option>
-
-                                    <option value="25000">
-                                        Rp 25.000
-                                    </option>
-
-                                    <option value="50000">
-                                        Rp 50.000
-                                    </option>
-
-                                    <option value="100000">
-                                        Rp 100.000
-                                    </option>
-
-                                </select>
-
-                            </label>
-
-                            <button
-                                type="submit"
-                                class="self-end bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-2 text-sm"
-                            >
-                                Pesan
-                            </button>
-
-                        </form>
-
-                        <p class="px-3 pb-3 text-xs text-slate-400">
-                            Pesanan top up akan diteruskan melalui WhatsApp admin.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Menu kategori tambahan -->
-            <div class="flex gap-2 overflow-x-auto scrollbar-hide mt-6 pt-1">
-
-                <button
-                    onclick="showAllProducts()"
-                    class="whitespace-nowrap border rounded-full px-4 py-2 text-xs hover:border-green-500"
-                >
-                    ☷ Semua Produk
-                </button>
-
-                <button
-                    onclick="filterCategory('Elektronik')"
-                    class="whitespace-nowrap border rounded-full px-4 py-2 text-xs hover:border-green-500"
-                >
-                    📱 Elektronik
-                </button>
-
-                <button
-                    onclick="filterCategory('Makanan Kering')"
-                    class="whitespace-nowrap border rounded-full px-4 py-2 text-xs hover:border-green-500"
-                >
-                    🍪 Makanan
-                </button>
-
-                <button
-                    onclick="filterCategory('Tas')"
-                    class="whitespace-nowrap border rounded-full px-4 py-2 text-xs hover:border-green-500"
-                >
-                    👜 Tas
-                </button>
-
-                <button
-                    onclick="filterCategory('Sepatu')"
-                    class="whitespace-nowrap border rounded-full px-4 py-2 text-xs hover:border-green-500"
-                >
-                    👟 Sepatu
-                </button>
-
-                <button
-                    onclick="filterCategory('Figure')"
-                    class="whitespace-nowrap border rounded-full px-4 py-2 text-xs hover:border-green-500"
-                >
-                    🤖 Figure
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- ===================================== -->
-        <!-- BANNER KATALOG                        -->
-        <!-- ===================================== -->
-
-        <section class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 rounded-2xl p-6 md:p-8 text-white mb-6 shadow-lg">
-
-            <h2 class="text-2xl md:text-3xl font-extrabold mb-2">
-                Produk Kreatif &amp; Inovatif
-            </h2>
-
-            <p class="text-indigo-100 max-w-xl text-sm md:text-base">
-                Temukan produk favoritmu dan dukung usaha lokal.
-                Belanja dengan mudah melalui Tokoku.
-            </p>
-
-            <a
-                href="#produk"
-                class="inline-block mt-4 bg-white text-indigo-700 font-bold px-5 py-2.5 rounded-lg text-sm hover:bg-indigo-50"
-            >
-                Lihat Produk
-            </a>
-
-        </section>
-
-
-        <!-- ===================================== -->
-        <!-- KATALOG PRODUK                        -->
-        <!-- ===================================== -->
-
-        <section id="produk">
-
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-
-                <div>
-
-                    <h2 class="text-xl md:text-2xl font-bold">
-                        Katalog Produk
-                    </h2>
-
-                    <p class="text-sm text-slate-500 mt-1">
-                        Pilih produk yang kamu inginkan.
-                    </p>
-
-                </div>
-
-                <button
-                    onclick="showAllProducts()"
-                    class="text-sm font-semibold text-green-600 hover:text-green-800 text-left sm:text-right"
-                >
-                    Lihat Semua Produk
-                </button>
-
-            </div>
-
-
-            <!-- Status pemuatan -->
-            <div
-                id="product-loading"
-                class="text-center py-16 text-slate-500 bg-white rounded-xl border"
-            >
-
-                <div class="text-4xl mb-3">⏳</div>
-
-                <p class="font-medium">
-                    Memuat katalog produk...
-                </p>
-
-            </div>
-
-
-            <!-- Pesan jika terjadi kesalahan -->
-            <div
-                id="product-error"
-                class="hidden text-center py-8 px-4 text-red-600 bg-red-50 rounded-xl border border-red-200 mb-4"
-            >
-
-                <p class="font-semibold">
-                    Produk belum dapat dimuat.
-                </p>
-
-                <p class="text-sm mt-2">
-                    Periksa konfigurasi Google Apps Script atau gunakan katalog demo.
-                </p>
-
-                <button
-                    onclick="loadDemoProducts()"
-                    class="mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
-                >
-                    Tampilkan Produk Contoh
-                </button>
-
-            </div>
-
-
-            <!-- Tempat produk ditampilkan -->
-            <div
-                id="product-grid"
-                class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
-            ></div>
-
-
-            <!-- Pesan hasil pencarian -->
-            <p
-                id="empty-products"
-                class="hidden text-center py-10 text-slate-500"
-            >
-                Produk tidak ditemukan.
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <!-- ===================================== -->
-    <!-- FOOTER                                -->
-    <!-- ===================================== -->
-
-    <footer id="footer" class="bg-white border-t mt-8">
-
-        <div class="max-w-6xl mx-auto px-4 py-8">
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                <div>
-
-                    <h2 class="text-2xl font-extrabold market-green mb-3">
-                        tokoku
-                    </h2>
-
-                    <p class="text-sm text-slate-500 leading-relaxed">
-                        Tokoku adalah contoh website toko online untuk
-                        menampilkan produk, menerima pesanan, dan
-                        memudahkan transaksi melalui WhatsApp.
-                    </p>
-
-                </div>
-
-
-                <div>
-
-                    <h3 class="font-bold mb-3">
-                        Menu
-                    </h3>
-
-                    <div class="flex flex-col gap-2 text-sm text-slate-500">
-
-                        <a href="#" class="hover:text-green-600">
-                            Beranda
-                        </a>
-
-                        <a href="#kategori" class="hover:text-green-600">
-                            Kategori
-                        </a>
-
-                        <a href="#produk" class="hover:text-green-600">
-                            Katalog Produk
-                        </a>
-
-                        <a href="#topup" class="hover:text-green-600">
-                            Top Up
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <h3 class="font-bold mb-3">
-                        Layanan Pelanggan
-                    </h3>
-
-                    <p class="text-sm text-slate-500 leading-relaxed">
-                        Untuk pertanyaan dan pemesanan produk,
-                        silakan hubungi admin melalui WhatsApp.
-                    </p>
-
-                    <button
-                        onclick="contactAdmin()"
-                        class="mt-3 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg"
-                    >
-                        Hubungi Admin
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="border-t mt-8 pt-5 text-center text-xs text-slate-400">
-
-                <p>
-                    &copy; 2026 Tokoku. Semua hak dilindungi.
-                </p>
-
-            </div>
+          <p class="text-xs text-slate-600 mt-2">
+            *S&K Berlaku
+          </p>
 
         </div>
 
-    </footer>
-
-
-    <!-- ===================================== -->
-    <!-- MODAL KERANJANG BELANJA               -->
-    <!-- ===================================== -->
-
-    <div
-        id="cart-modal"
-        class="fixed inset-0 bg-black/50 z-30 hidden justify-end"
-        onclick="closeCartOnBackdrop(event)"
-    >
-
-        <div
-            class="bg-white w-full max-w-md h-full flex flex-col p-5 md:p-6 shadow-2xl overflow-y-auto"
-            onclick="event.stopPropagation()"
-        >
-
-            <!-- Header keranjang -->
-            <div class="flex justify-between items-center pb-4 border-b">
-
-                <div>
-
-                    <h2 class="text-lg font-bold text-slate-900">
-                        Keranjang Belanja
-                    </h2>
-
-                    <p class="text-xs text-slate-500 mt-1">
-                        Periksa produk sebelum memesan.
-                    </p>
-
-                </div>
-
-                <button
-                    onclick="toggleCart()"
-                    class="text-slate-400 hover:text-slate-700 text-3xl font-bold"
-                    aria-label="Tutup keranjang"
-                >
-                    &times;
-                </button>
-
-            </div>
-
-
-            <!-- Daftar item keranjang -->
-            <div
-                id="cart-items"
-                class="flex-1 py-4 space-y-3 overflow-y-auto"
-            ></div>
-
-
-            <!-- Bagian checkout -->
-            <div class="border-t pt-4 space-y-4">
-
-                <div class="flex justify-between text-lg font-bold text-slate-900">
-
-                    <span>Total Pembayaran:</span>
-
-                    <span id="cart-total" class="text-green-600">
-                        Rp 0
-                    </span>
-
-                </div>
-
-
-                <!-- Form checkout -->
-                <form
-                    id="checkout-form"
-                    onsubmit="handleCheckout(event)"
-                    class="space-y-3"
-                >
-
-                    <div>
-
-                        <label
-                            for="cust-name"
-                            class="block text-xs font-semibold text-slate-600 mb-1"
-                        >
-                            Nama Lengkap Pembeli
-                        </label>
-
-                        <input
-                            type="text"
-                            id="cust-name"
-                            required
-                            autocomplete="name"
-                            class="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-green-500 outline-none"
-                            placeholder="Contoh: Budi Santoso"
-                        >
-
-                    </div>
-
-
-                    <div>
-
-                        <label
-                            for="cust-phone"
-                            class="block text-xs font-semibold text-slate-600 mb-1"
-                        >
-                            Nomor WhatsApp Aktif
-                        </label>
-
-                        <input
-                            type="tel"
-                            id="cust-phone"
-                            required
-                            autocomplete="tel"
-                            class="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-green-500 outline-none"
-                            placeholder="Contoh: 081234567890"
-                        >
-
-                    </div>
-
-
-                    <div>
-
-                        <label
-                            for="cust-address"
-                            class="block text-xs font-semibold text-slate-600 mb-1"
-                        >
-                            Alamat Lengkap Pengiriman
-                        </label>
-
-                        <textarea
-                            id="cust-address"
-                            required
-                            autocomplete="street-address"
-                            class="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-green-500 outline-none"
-                            rows="3"
-                            placeholder="Jalan, nomor rumah, kelurahan, kecamatan, kota"
-                        ></textarea>
-
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        id="btn-submit"
-                        class="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition shadow-md"
-                    >
-                        Beli Sekarang via WhatsApp 📲
-                    </button>
-
-                    <p class="text-xs text-slate-400 text-center">
-                        Ongkos kirim dan pembayaran dikonfirmasi oleh admin.
-                    </p>
-
-                </form>
-
-            </div>
-
+        <div class="text-7xl md:text-9xl" aria-hidden="true">
+          🛍️ 🎁
         </div>
+
+      </div>
 
     </div>
 
 
-    <!-- ===================================== -->
-    <!-- JAVASCRIPT                            -->
-    <!-- ===================================== -->
+    <!-- Kategori dan Top Up -->
+    <section class="bg-white border border-slate-100 rounded-2xl p-4 md:p-5 shadow-sm mb-6">
 
-    <script>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        // =====================================
-        // KONFIGURASI TOKO
-        // =====================================
+        <!-- Kategori Pilihan -->
+        <div>
 
-        /*
-         * Jika memakai Google Apps Script:
-         * 1. Ganti API_URL dengan URL deployment berakhiran /exec.
-         * 2. Ganti WA_ADMIN dengan nomor WhatsApp admin.
-         *
-         * Contoh URL:
-         * https://script.google.com/macros/s/ID_DEPLOYMENT/exec
-         *
-         * Contoh nomor:
-         * 6281234567890
-         */
+          <h3 class="text-lg font-bold text-slate-800 mb-4">
+            Kategori Pilihan
+          </h3>
 
-        const API_URL = "https://script.google.com/macros/s/AKfycbxBhdqOdUvZxQ-njCm6Gv7PP52a-zCnJ00gyf1LZy_ZRvYAWT9kPPNtP-RzaA4gi3nJ/exec";
+          <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
 
-        const WA_ADMIN = "6287844263501";
+            <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
+              <div class="text-3xl mb-2">🍪</div>
+              <p class="text-xs font-medium">
+                Makanan<br>Kering
+              </p>
+            </div>
+
+            <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
+              <div class="text-3xl mb-2">🤖</div>
+              <p class="text-xs font-medium">
+                Figure
+              </p>
+            </div>
+
+            <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
+              <div class="text-3xl mb-2">👜</div>
+              <p class="text-xs font-medium">
+                Tas Selempang<br>Pria
+              </p>
+            </div>
+
+            <div class="category-card border rounded-xl p-3 text-center hover:shadow-sm">
+              <div class="text-3xl mb-2">👡</div>
+              <p class="text-xs font-medium">
+                Flat Shoes<br>Wanita
+              </p>
+            </div>
+
+          </div>
+
+        </div>
 
 
-        // =====================================
-        // DATA DAN STATUS
-        // =====================================
+        <!-- Top Up dan Tagihan -->
+        <div>
 
-        let products = [];
+          <div class="flex items-center gap-2 mb-3">
 
-        let cart = [];
+            <h3 class="text-lg font-bold text-slate-800">
+              Top Up &amp; Tagihan
+            </h3>
 
-        let currentCategory = "";
+            <span class="text-xs font-semibold market-green">
+              Lihat Semua
+            </span>
 
-        let currentTopupType = "Pulsa";
+          </div>
 
-        let usingDemoProducts = false;
+          <div class="border rounded-xl overflow-hidden">
+
+            <div class="grid grid-cols-4 text-xs text-center bg-slate-50 border-b">
+
+              <button class="py-3 border-b-2 border-green-600 font-semibold market-green">
+                Pulsa
+              </button>
+
+              <button class="py-3 text-slate-500">
+                Paket Data
+              </button>
+
+              <button class="py-3 text-slate-500">
+                Flight
+              </button>
+
+              <button class="py-3 text-slate-500">
+                Listrik PLN
+              </button>
+
+            </div>
+
+            <div class="p-3 grid grid-cols-1 sm:grid-cols-3 gap-2">
+
+              <label class="text-xs text-slate-600">
+                Nomor Telepon
+
+                <input
+                  type="tel"
+                  placeholder="081234567890"
+                  class="mt-1 w-full border rounded-lg px-2 py-2 text-sm outline-none focus:border-green-500"
+                >
+              </label>
+
+              <label class="text-xs text-slate-600">
+                Nominal
+
+                <select class="mt-1 w-full border rounded-lg px-2 py-2 text-sm bg-white">
+                  <option value="">Pilih nominal</option>
+                  <option>Rp 10.000</option>
+                  <option>Rp 25.000</option>
+                  <option>Rp 50.000</option>
+                  <option>Rp 100.000</option>
+                </select>
+              </label>
+
+              <button
+                onclick="alert('Fitur Top Up dapat dihubungkan kemudian.')"
+                class="self-end bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg py-2 text-sm"
+              >
+                Beli
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
 
 
-        // =====================================
-        // FUNGSI FORMAT RUPIAH
-        // =====================================
+      <!-- Menu Kategori -->
+      <div class="flex gap-2 overflow-x-auto scrollbar-hide mt-6 pt-1">
 
-        function formatRupiah(value) {
+        <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
+          ☷ Kategori
+        </span>
 
-            const amount = Number(value) || 0;
+        <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
+          ▣ Handphone &amp; Tablet
+        </span>
 
-            return "Rp " + amount.toLocaleString("id-ID");
+        <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
+          ▤ Top-Up &amp; Tagihan
+        </span>
+
+        <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
+          ✈ Travel &amp; Entertainment
+        </span>
+
+        <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
+          ♧ Perawatan Hewan
+        </span>
+
+        <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
+          ▣ Keuangan
+        </span>
+
+        <span class="whitespace-nowrap border rounded-full px-4 py-2 text-xs">
+          ▥ Komputer &amp; Laptop
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- Banner Katalog -->
+    <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 rounded-2xl p-6 md:p-8 text-white mb-6 shadow-lg">
+
+      <h2 class="text-2xl md:text-3xl font-extrabold mb-2">
+        Produk Kreatif &amp; Inovatif
+      </h2>
+
+      <p class="text-indigo-100 max-w-xl text-sm md:text-base">
+        Belanja mudah, cepat, dan terhubung langsung ke WhatsApp.
+      </p>
+
+    </div>
+
+
+    <!-- Judul Katalog -->
+    <div class="flex items-center justify-between mb-4">
+
+      <h3 class="text-xl font-bold">
+        Katalog Produk
+      </h3>
+
+      <span class="text-sm text-slate-500">
+        Pilihan untuk Anda
+      </span>
+
+    </div>
+
+
+    <!-- Loading Produk -->
+    <div
+      id="product-loading"
+      class="text-center py-16 text-slate-500 bg-white rounded-xl border"
+    >
+
+      <div class="inline-block animate-spin text-3xl mb-3">
+        ⏳
+      </div>
+
+      <p class="font-medium">
+        Memuat katalog produk dari Google Sheets...
+      </p>
+
+    </div>
+
+
+    <!-- Daftar Produk -->
+    <div
+      id="product-grid"
+      class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 hidden"
+    ></div>
+
+  </main>
+
+
+  <!-- Footer Website -->
+  <footer class="bg-white border-t py-6 text-center text-xs text-slate-500">
+
+    <p>
+      © 2026 Tokoku. All rights reserved.
+    </p>
+
+    <p class="mt-1 font-semibold text-indigo-600">
+      Powered by wahyuramadhan.com
+    </p>
+
+  </footer>
+
+
+  <!-- Modal Keranjang Belanja -->
+  <div
+    id="cart-modal"
+    class="fixed inset-0 bg-black/50 z-30 hidden justify-end"
+  >
+
+    <div class="bg-white w-full max-w-md h-full flex flex-col p-6 shadow-2xl overflow-y-auto">
+
+      <div class="flex justify-between items-center pb-4 border-b">
+
+        <h4 class="text-lg font-bold text-slate-900">
+          Keranjang Belanja
+        </h4>
+
+        <button
+          onclick="toggleCart()"
+          class="text-slate-400 hover:text-slate-700 text-2xl font-bold"
+        >
+          &times;
+        </button>
+
+      </div>
+
+
+      <!-- Item Keranjang -->
+      <div
+        id="cart-items"
+        class="flex-1 py-4 space-y-3 overflow-y-auto"
+      ></div>
+
+
+      <!-- Total dan Checkout -->
+      <div class="border-t pt-4 space-y-4">
+
+        <div class="flex justify-between text-lg font-bold text-slate-900">
+
+          <span>Total Pembayaran:</span>
+
+          <span id="cart-total" class="text-indigo-600">
+            Rp 0
+          </span>
+
+        </div>
+
+
+        <!-- Form Checkout -->
+        <form
+          id="checkout-form"
+          onsubmit="handleCheckout(event)"
+          class="space-y-3"
+        >
+
+          <div>
+
+            <label class="block text-xs font-semibold text-slate-600 mb-1">
+              Nama Lengkap Pembeli
+            </label>
+
+            <input
+              type="text"
+              id="cust-name"
+              required
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+              placeholder="Contoh: Budi Santoso"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label class="block text-xs font-semibold text-slate-600 mb-1">
+              Nomor WhatsApp Aktif
+            </label>
+
+            <input
+              type="tel"
+              id="cust-phone"
+              required
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+              placeholder="Contoh: 081234567890"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label class="block text-xs font-semibold text-slate-600 mb-1">
+              Alamat Lengkap Pengiriman
+            </label>
+
+            <textarea
+              id="cust-address"
+              required
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+              rows="2"
+              placeholder="Jalan, Nomor Rumah, Kelurahan, Kecamatan, Kota"
+            ></textarea>
+
+          </div>
+
+
+          <button
+            type="submit"
+            id="btn-submit"
+            class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition shadow-md"
+          >
+            Beli Sekarang via WhatsApp 📲
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- JavaScript -->
+  <script>
+
+    // =====================================
+    // KONFIGURASI WEBSITE
+    // =====================================
+
+    // Masukkan URL Google Apps Script yang berakhiran /exec.
+    const API_URL = "https://script.google.com/macros/s/AKfycbxEuMvN7S2cVX93SQTErGRHneYLmuFlG55YZtnMqbb6pINiWNzUvjEao9ZOf5yJ5SGz/exec";
+
+    // Ganti dengan nomor WhatsApp admin.
+    // Gunakan format 62, tanpa tanda + dan tanpa angka 0 di depan.
+    const WA_ADMIN = "6287844263501";
+
+
+    // =====================================
+    // DATA PRODUK DAN KERANJANG
+    // =====================================
+
+    let products = [];
+
+    let cart = [];
+
+
+    // =====================================
+    // MEMUAT PRODUK DARI GOOGLE SHEETS
+    // =====================================
+
+    async function loadProducts() {
+
+      try {
+
+        if (
+          !API_URL ||
+          API_URL === "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DISINI"
+        ) {
+          throw new Error("URL Google Apps Script belum diatur.");
+        }
+
+        const res = await fetch(API_URL);
+
+        if (!res.ok) {
+          throw new Error("Gagal mengambil data produk.");
+        }
+
+        const json = await res.json();
+
+        products = Array.isArray(json) ? json : json.data;
+
+        if (!Array.isArray(products)) {
+          throw new Error("Format data produk tidak sesuai.");
+        }
+
+        renderProducts();
+
+      } catch (err) {
+
+        console.error("Gagal memuat produk:", err);
+
+        document.getElementById("product-loading").innerHTML = `
+          <p class="text-red-500 font-semibold">
+            Gagal memuat produk dari database.
+          </p>
+          <p class="text-sm text-slate-500 mt-2">
+            Periksa URL Google Apps Script Anda.
+          </p>
+          <button
+            onclick="loadDemoProducts()"
+            class="mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+          >
+            Tampilkan Produk Contoh
+          </button>
+        `;
+
+      }
+
+    }
+
+
+    // =====================================
+    // PRODUK CONTOH
+    // =====================================
+
+    function loadDemoProducts() {
+
+      products = [
+
+        {
+          id: 1,
+          nama: "Keripik Pisang",
+          harga: 15000,
+          foto: "https://images.unsplash.com/photo-1621939514649-280e2aa4d5c0?auto=format&fit=crop&w=600&q=80",
+          kategori: "Makanan Kering",
+          deskripsi: "Keripik pisang renyah untuk camilan.",
+          stok: 25
+        },
+
+        {
+          id: 2,
+          nama: "Tas Selempang",
+          harga: 85000,
+          foto: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&q=80",
+          kategori: "Tas",
+          deskripsi: "Tas selempang praktis untuk sehari-hari.",
+          stok: 12
+        },
+
+        {
+          id: 3,
+          nama: "Sepatu Wanita",
+          harga: 120000,
+          foto: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
+          kategori: "Sepatu",
+          deskripsi: "Sepatu wanita dengan desain modern.",
+          stok: 10
+        },
+
+        {
+          id: 4,
+          nama: "Headphone",
+          harga: 175000,
+          foto: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
+          kategori: "Elektronik",
+          deskripsi: "Headphone untuk mendengarkan musik.",
+          stok: 8
+        },
+
+        {
+          id: 5,
+          nama: "Figure Robot",
+          harga: 95000,
+          foto: "https://images.unsplash.com/photo-1608889825103-eb5ed706fc64?auto=format&fit=crop&w=600&q=80",
+          kategori: "Figure",
+          deskripsi: "Figure koleksi untuk penggemar robot.",
+          stok: 15
+        },
+
+        {
+          id: 6,
+          nama: "Camilan Kacang",
+          harga: 12000,
+          foto: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=600&q=80",
+          kategori: "Makanan Kering",
+          deskripsi: "Camilan kacang untuk teman bersantai.",
+          stok: 30
+        }
+
+      ];
+
+      renderProducts();
+
+    }
+
+
+    // =====================================
+    // MENAMPILKAN PRODUK
+    // =====================================
+
+    function renderProducts(list = products) {
+
+      const grid = document.getElementById("product-grid");
+
+      grid.innerHTML = "";
+
+      list.forEach(p => {
+
+        const card = document.createElement("div");
+
+        card.className =
+          "bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col";
+
+
+        const image = document.createElement("img");
+
+        image.src = p.foto || "https://placehold.co/300x300?text=Foto+Produk";
+
+        image.alt = p.nama || "Produk";
+
+        image.className = "h-40 md:h-48 w-full object-cover bg-slate-100";
+
+        image.loading = "lazy";
+
+        image.onerror = function () {
+          this.onerror = null;
+          this.src = "https://placehold.co/300x300?text=Foto+Produk";
+        };
+
+        card.appendChild(image);
+
+
+        const content = document.createElement("div");
+
+        content.className =
+          "p-4 md:p-5 flex-1 flex flex-col justify-between";
+
+
+        const info = document.createElement("div");
+
+
+        const category = document.createElement("span");
+
+        category.className =
+          "text-xs font-semibold bg-green-50 text-green-700 px-2.5 py-1 rounded-full";
+
+        category.textContent = p.kategori || "Umum";
+
+        info.appendChild(category);
+
+
+        const name = document.createElement("h4");
+
+        name.className =
+          "font-bold text-slate-900 text-base md:text-lg mt-2";
+
+        name.textContent = p.nama || "Produk";
+
+        info.appendChild(name);
+
+
+        const description = document.createElement("p");
+
+        description.className = "text-xs text-slate-500 mt-1";
+
+        description.textContent = p.deskripsi || "";
+
+        info.appendChild(description);
+
+
+        const stock = document.createElement("p");
+
+        stock.className = "text-xs text-slate-400 mt-1";
+
+        stock.textContent = "Sisa Stok: " + (p.stok || 0);
+
+        info.appendChild(stock);
+
+        content.appendChild(info);
+
+
+        const bottom = document.createElement("div");
+
+        bottom.className =
+          "mt-4 pt-3 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-2";
+
+
+        const price = document.createElement("span");
+
+        price.className = "font-extrabold text-green-700 text-base";
+
+        price.textContent =
+          "Rp " + Number(p.harga || 0).toLocaleString("id-ID");
+
+        bottom.appendChild(price);
+
+
+        const button = document.createElement("button");
+
+        button.className =
+          "bg-green-600 text-white text-xs font-bold px-3.5 py-2 rounded-lg hover:bg-green-700 transition";
+
+        button.textContent = "+ Keranjang";
+
+        button.disabled = Number(p.stok || 0) <= 0;
+
+        if (button.disabled) {
+          button.textContent = "Stok Habis";
+        }
+
+        button.addEventListener("click", function () {
+          addToCart(p.id);
+        });
+
+        bottom.appendChild(button);
+
+        content.appendChild(bottom);
+
+        card.appendChild(content);
+
+        grid.appendChild(card);
+
+      });
+
+
+      document.getElementById("product-loading").classList.add("hidden");
+
+      grid.classList.remove("hidden");
+
+    }
+
+
+    // =====================================
+    // PENCARIAN PRODUK
+    // =====================================
+
+    function searchProducts() {
+
+      const keyword = document
+        .getElementById("search-input")
+        .value
+        .toLowerCase()
+        .trim();
+
+      const filtered = products.filter(p =>
+
+        String(p.nama || "").toLowerCase().includes(keyword) ||
+
+        String(p.kategori || "").toLowerCase().includes(keyword) ||
+
+        String(p.deskripsi || "").toLowerCase().includes(keyword)
+
+      );
+
+      renderProducts(filtered);
+
+    }
+
+
+    document
+      .getElementById("search-input")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+          searchProducts();
+        }
+
+      });
+
+
+    // =====================================
+    // MENAMBAHKAN PRODUK KE KERANJANG
+    // =====================================
+
+    function addToCart(id) {
+
+      const product = products.find(p => p.id == id);
+
+      if (!product) {
+        alert("Produk tidak ditemukan.");
+        return;
+      }
+
+      if (Number(product.stok || 0) <= 0) {
+        alert("Maaf, stok produk sedang habis.");
+        return;
+      }
+
+      const existing = cart.find(item => item.id == id);
+
+      if (existing) {
+
+        if (existing.qty >= Number(product.stok)) {
+          alert("Jumlah pembelian melebihi stok yang tersedia.");
+          return;
+        }
+
+        existing.qty += 1;
+
+      } else {
+
+        cart.push({
+          ...product,
+          qty: 1
+        });
+
+      }
+
+      updateCartUI();
+
+    }
+
+
+    // =====================================
+    // MEMPERBARUI TAMPILAN KERANJANG
+    // =====================================
+
+    function updateCartUI() {
+
+      const count = cart.reduce((total, item) => {
+        return total + item.qty;
+      }, 0);
+
+      document.getElementById("cart-count").innerText = count;
+
+
+      const container = document.getElementById("cart-items");
+
+      container.innerHTML = "";
+
+      let total = 0;
+
+
+      if (cart.length === 0) {
+
+        container.innerHTML = `
+          <div class="text-center py-12">
+            <div class="text-5xl mb-3">🛒</div>
+            <p class="font-semibold text-slate-700">
+              Keranjang masih kosong
+            </p>
+            <p class="text-sm text-slate-400 mt-2">
+              Silakan pilih produk terlebih dahulu.
+            </p>
+          </div>
+        `;
+
+      }
+
+
+      cart.forEach((item, index) => {
+
+        total += Number(item.harga) * item.qty;
+
+
+        const row = document.createElement("div");
+
+        row.className =
+          "flex justify-between items-center bg-slate-50 p-3 rounded-xl text-sm border";
+
+
+        const info = document.createElement("div");
+
+
+        const name = document.createElement("p");
+
+        name.className = "font-semibold text-slate-800";
+
+        name.textContent = item.nama;
+
+        info.appendChild(name);
+
+
+        const price = document.createElement("p");
+
+        price.className = "text-xs text-slate-500";
+
+        price.textContent =
+          "Rp " +
+          Number(item.harga).toLocaleString("id-ID") +
+          " x " +
+          item.qty;
+
+        info.appendChild(price);
+
+
+        const remove = document.createElement("button");
+
+        remove.className =
+          "text-red-500 hover:text-red-700 text-xs font-bold";
+
+        remove.textContent = "Hapus";
+
+        remove.addEventListener("click", function() {
+          removeFromCart(index);
+        });
+
+
+        row.appendChild(info);
+
+        row.appendChild(remove);
+
+        container.appendChild(row);
+
+      });
+
+
+      document.getElementById("cart-total").innerText =
+        "Rp " + total.toLocaleString("id-ID");
+
+    }
+
+
+    // =====================================
+    // MENGHAPUS PRODUK DARI KERANJANG
+    // =====================================
+
+    function removeFromCart(index) {
+
+      cart.splice(index, 1);
+
+      updateCartUI();
+
+    }
+
+
+    // =====================================
+    // MEMBUKA DAN MENUTUP KERANJANG
+    // =====================================
+
+    function toggleCart() {
+
+      const modal = document.getElementById("cart-modal");
+
+      modal.classList.toggle("hidden");
+
+      modal.classList.toggle("flex");
+
+    }
+
+
+    // =====================================
+    // CHECKOUT MELALUI WHATSAPP
+    // =====================================
+
+    async function handleCheckout(event) {
+
+      event.preventDefault();
+
+
+      if (cart.length === 0) {
+
+        alert("Keranjang belanja Anda masih kosong!");
+
+        return;
+
+      }
+
+
+      if (
+        WA_ADMIN === "6281234567890" ||
+        !/^62\d{8,15}$/.test(WA_ADMIN)
+      ) {
+
+        alert(
+          "Silakan ganti WA_ADMIN di dalam kode HTML dengan nomor WhatsApp admin toko yang aktif."
+        );
+
+        return;
+
+      }
+
+
+      const button = document.getElementById("btn-submit");
+
+      button.innerText = "Mencatat Pesanan...";
+
+      button.disabled = true;
+
+
+      const invoiceCode =
+        "INV-" + Date.now().toString().slice(-8);
+
+
+      const payload = {
+
+        invoice: invoiceCode,
+
+        nama: document.getElementById("cust-name").value.trim(),
+
+        whatsapp: document.getElementById("cust-phone").value.trim(),
+
+        alamat: document.getElementById("cust-address").value.trim(),
+
+        items: cart.map(item => ({
+          id: item.id,
+          nama: item.nama,
+          harga: Number(item.harga),
+          qty: item.qty,
+          subtotal: Number(item.harga) * item.qty
+        })),
+
+        total: cart.reduce((total, item) => {
+          return total + Number(item.harga) * item.qty;
+        }, 0)
+
+      };
+
+
+      try {
+
+        // Mengirim pesanan ke Google Apps Script.
+        if (
+          API_URL &&
+          API_URL !== "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DISINI"
+        ) {
+
+          fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(payload)
+          }).catch(error => {
+            console.error("Gagal mengirim data ke Apps Script:", error);
+          });
 
         }
 
 
-        // =====================================
-        // MEMUAT PRODUK DARI GOOGLE SHEETS
-        // =====================================
+        // Membuat pesan WhatsApp.
+        let textWA = "Halo Admin Tokoku, saya ingin memesan produk.\n\n";
 
-        async function loadProducts() {
+        textWA += "Nomor Pesanan: " + invoiceCode + "\n";
 
-            const loading = document.getElementById("product-loading");
+        textWA += "Nama: " + payload.nama + "\n";
 
-            const error = document.getElementById("product-error");
+        textWA += "Nomor WhatsApp: " + payload.whatsapp + "\n";
 
-            loading.classList.remove("hidden");
+        textWA += "Alamat: " + payload.alamat + "\n\n";
 
-            error.classList.add("hidden");
+        textWA += "DAFTAR BELANJA:\n";
 
-            try {
 
-                if (
-                    !API_URL ||
-                    API_URL === "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DISINI"
-                ) {
+        payload.items.forEach(item => {
 
-                    throw new Error("URL Google Apps Script belum diatur.");
+          textWA +=
+            "- " +
+            item.nama +
+            " (" +
+            item.qty +
+            " x Rp " +
+            Number(item.harga).toLocaleString("id-ID") +
+            ") = Rp " +
+            Number(item.subtotal).toLocaleString("id-ID") +
+            "\n";
 
-                }
+        });
 
-                const response = await fetch(API_URL);
 
-                if (!response.ok) {
+        textWA +=
+          "\nTotal Pembayaran: Rp " +
+          payload.total.toLocaleString("id-ID");
 
-                    throw new Error("Gagal mengambil data produk.");
+        textWA +=
+          "\n\nMohon konfirmasi pesanan, ongkos kirim, dan metode pembayaran. Terima kasih.";
 
-                }
 
-                const result = await response.json();
+        const whatsappURL =
+          "https://wa.me/" +
+          WA_ADMIN +
+          "?text=" +
+          encodeURIComponent(textWA);
 
-                /*
-                 * Format data yang didukung:
-                 * { "data": [...] }
-                 * atau langsung berupa array [...]
-                 */
 
-                const productData = Array.isArray(result)
-                    ? result
-                    : result.data;
+        window.open(
+          whatsappURL,
+          "_blank",
+          "noopener,noreferrer"
+        );
 
-                if (!Array.isArray(productData)) {
 
-                    throw new Error("Format data produk tidak sesuai.");
+      } catch (error) {
 
-                }
+        console.error("Kesalahan checkout:", error);
 
-                products = productData.map((product, index) => ({
+        alert("Gagal memproses pesanan. Silakan coba kembali.");
 
-                    id: product.id ?? index + 1,
+      } finally {
 
-                    nama: product.nama ?? "Produk tanpa nama",
+        button.innerText = "Beli Sekarang via WhatsApp 📲";
 
-                    harga: Number(product.harga) || 0,
+        button.disabled = false;
 
-                    foto: product.foto ?? "",
+      }
 
-                    kategori: product.kategori ?? "Umum",
+    }
 
-                    deskripsi: product.deskripsi ?? "",
 
-                    stok: Number(product.stok) || 0
+    // =====================================
+    // INISIALISASI WEBSITE
+    // =====================================
 
-                }));
+    updateCartUI();
 
-                usingDemoProducts = false;
+    loadProducts();
 
-                renderProducts();
-
-                loading.classList.add("hidden");
-
-            } catch (errorMessage) {
-
-                console.error("Kesalahan memuat produk:", errorMessage);
-
-                loading.classList.add("hidden");
-
-                error.classList.remove("hidden");
-
-                /*
-                 * Klik tombol Produk Contoh untuk
-                 * menampilkan katalog tanpa database.
-                 */
-
-            }
-
-        }
-
-
-        // =====================================
-        // DATA PRODUK CONTOH
-        // =====================================
-
-        function loadDemoProducts() {
-
-            products = [
-
-                {
-                    id: 1,
-                    nama: "Keripik Pisang",
-                    harga: 15000,
-                    foto: "https://images.unsplash.com/photo-1621939514649-280e2aa4d5c0?auto=format&fit=crop&w=600&q=80",
-                    kategori: "Makanan Kering",
-                    deskripsi: "Keripik pisang renyah untuk camilan.",
-                    stok: 25
-                },
-
-                {
-                    id: 2,
-                    nama: "Tas Selempang",
-                    harga: 85000,
-                    foto: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&q=80",
-                    kategori: "Tas",
-                    deskripsi: "Tas selempang praktis untuk sehari-hari.",
-                    stok: 12
-                },
-
-                {
-                    id: 3,
-                    nama: "Sepatu Wanita",
-                    harga: 120000,
-                    foto: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
-                    kategori: "Sepatu",
-                    deskripsi: "Sepatu wanita dengan desain modern.",
-                    stok: 10
-                },
-
-                {
-                    id: 4,
-                    nama: "Headphone",
-                    harga: 175000,
-                    foto: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
-                    kategori: "Elektronik",
-                    deskripsi: "Headphone untuk mendengarkan musik.",
-                    stok: 8
-                },
-
-                {
-                    id: 5,
-                    nama: "Figure Robot",
-                    harga: 95000,
-                    foto: "https://images.unsplash.com/photo-1608889825103-eb5ed706fc64?auto=format&fit=crop&w=600&q=80",
-                    kategori: "Figure",
-                    deskripsi: "Figure koleksi untuk penggemar robot.",
-                    stok: 15
-                },
-
-                {
-                    id: 6,
-                    nama: "Camilan Kacang",
-                    harga: 12000,
-                    foto: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=600&q=80",
-                    kategori: "Makanan Kering",
-                    deskripsi: "Camilan kacang untuk teman bersantai.",
-                    stok: 30
-                }
-
-            ];
-
-            usingDemoProducts = true;
-
-            document.getElementById("product-loading").classList.add("hidden");
-
-            document.getElementById("product-error").classList.add("hidden");
-
-            renderProducts();
-
-        }
-
-
-        // =====================================
-        // MENAMPILKAN KATALOG PRODUK
-        // =====================================
-
-        function renderProducts(list = null) {
-
-            const grid = document.getElementById("product-grid");
-
-            const emptyMessage = document.getElementById("empty-products");
-
-            let displayedProducts = list ?? products;
-
-            if (currentCategory) {
-
-                displayedProducts = displayedProducts.filter(product => {
-
-                    return String(product.kategori)
-                        .toLowerCase()
-                        .includes(currentCategory.toLowerCase());
-
-                });
-
-            }
-
-            grid.innerHTML = "";
-
-            if (displayedProducts.length === 0) {
-
-                emptyMessage.classList.remove("hidden");
-
-                return;
-
-            }
-
-            emptyMessage.classList.add("hidden");
-
-            displayedProducts.forEach(product => {
-
-                const card = document.createElement("article");
-
-                card.className =
-                    "product-card bg-white border rounded-2xl overflow-hidden shadow-sm flex flex-col";
-
-
-                // Foto produk
-                const image = document.createElement("img");
-
-                image.className = "product-image bg-slate-100";
-
-                image.src = product.foto ||
-                    "https://placehold.co/600x400?text=Foto+Produk";
-
-                image.alt = product.nama;
-
-                image.loading = "lazy";
-
-                image.onerror = function () {
-
-                    this.onerror = null;
-
-                    this.src = "https://placehold.co/600x400?text=Foto+Produk";
-
-                };
-
-                card.appendChild(image);
-
-
-                // Bagian isi produk
-                const content = document.createElement("div");
-
-                content.className =
-                    "p-4 md:p-5 flex-1 flex flex-col justify-between";
-
-
-                const information = document.createElement("div");
-
-
-                // Kategori
-                const category = document.createElement("span");
-
-                category.className =
-                    "inline-block text-xs font-semibold bg-green-50 text-green-700 px-2.5 py-1 rounded-full";
-
-                category.textContent = product.kategori;
-
-                information.appendChild(category);
-
-
-                // Nama produk
-                const name = document.createElement("h3");
-
-                name.className =
-                    "font-bold text-slate-900 text-base md:text-lg mt-2";
-
-                name.textContent = product.nama;
-
-                information.appendChild(name);
-
-
-                // Deskripsi
-                const description = document.createElement("p");
-
-                description.className = "text-xs text-slate-500 mt-2";
-
-                description.textContent = product.deskripsi;
-
-                information.appendChild(description);
-
-
-                // Stok
-                const stock = document.createElement("p");
-
-                stock.className = "text-xs text-slate-400 mt-2";
-
-                stock.textContent = "Sisa stok: " + product.stok;
-
-                information.appendChild(stock);
-
-
-                content.appendChild(information);
-
-
-                // Harga dan tombol
-                const bottom = document.createElement("div");
-
-                bottom.className =
-                    "mt-4 pt-3 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-3";
-
-
-                const price = document.createElement("span");
-
-                price.className =
-                    "font-extrabold text-green-700 text-base";
-
-                price.textContent = formatRupiah(product.harga);
-
-                bottom.appendChild(price);
-
-
-                const addButton = document.createElement("button");
-
-                addButton.type = "button";
-
-                addButton.className =
-                    "bg-green-600 text-white text-xs font-bold px-3.5 py-2.5 rounded-lg hover:bg-green-700 transition";
-
-                addButton.textContent = "+ Keranjang";
-
-                addButton.disabled = Number(product.stok) <= 0;
-
-                if (Number(product.stok) <= 0) {
-
-                    addButton.textContent = "Stok Habis";
-
-                }
-
-                addButton.addEventListener("click", function () {
-
-                    addToCart(product.id);
-
-                });
-
-                bottom.appendChild(addButton);
-
-
-                content.appendChild(bottom);
-
-                card.appendChild(content);
-
-                grid.appendChild(card);
-
-            });
-
-        }
-
-
-        // =====================================
-        // PENCARIAN PRODUK
-        // =====================================
-
-        function searchProducts() {
-
-            const keyword = document
-                .getElementById("search-input")
-                .value
-                .toLowerCase()
-                .trim();
-
-            currentCategory = "";
-
-            const filteredProducts = products.filter(product => {
-
-                return (
-
-                    String(product.nama)
-                        .toLowerCase()
-                        .includes(keyword) ||
-
-                    String(product.kategori)
-                        .toLowerCase()
-                        .includes(keyword) ||
-
-                    String(product.deskripsi)
-                        .toLowerCase()
-                        .includes(keyword)
-
-                );
-
-            });
-
-            renderProducts(filteredProducts);
-
-        }
-
-
-        // Jalankan pencarian saat Enter ditekan
-        document
-            .getElementById("search-input")
-            .addEventListener("keydown", function (event) {
-
-                if (event.key === "Enter") {
-
-                    searchProducts();
-
-                }
-
-            });
-
-
-        // =====================================
-        // FILTER KATEGORI
-        // =====================================
-
-        function filterCategory(category) {
-
-            currentCategory = category;
-
-            document.getElementById("search-input").value = "";
-
-            renderProducts();
-
-            document
-                .getElementById("produk")
-                .scrollIntoView({ behavior: "smooth" });
-
-        }
-
-
-        // =====================================
-        // TAMPILKAN SEMUA PRODUK
-        // =====================================
-
-        function showAllProducts() {
-
-            currentCategory = "";
-
-            document.getElementById("search-input").value = "";
-
-            renderProducts();
-
-        }
-
-
-        // =====================================
-        // TAMBAH PRODUK KE KERANJANG
-        // =====================================
-
-        function addToCart(id) {
-
-            const product = products.find(item => item.id == id);
-
-            if (!product) {
-
-                alert("Produk tidak ditemukan.");
-
-                return;
-
-            }
-
-            if (Number(product.stok) <= 0) {
-
-                alert("Maaf, stok produk sedang habis.");
-
-                return;
-
-            }
-
-            const existingItem = cart.find(item => item.id == id);
-
-            if (existingItem) {
-
-                if (existingItem.qty >= Number(product.stok)) {
-
-                    alert("Jumlah pembelian melebihi stok yang tersedia.");
-
-                    return;
-
-                }
-
-                existingItem.qty += 1;
-
-            } else {
-
-                cart.push({
-
-                    ...product,
-
-                    qty: 1
-
-                });
-
-            }
-
-            updateCartUI();
-
-        }
-
-
-        // =====================================
-        // PERBARUI TAMPILAN KERANJANG
-        // =====================================
-
-        function updateCartUI() {
-
-            const count = cart.reduce((total, item) => {
-
-                return total + item.qty;
-
-            }, 0);
-
-
-            document.getElementById("cart-count").textContent = count;
-
-
-            const container = document.getElementById("cart-items");
-
-            container.innerHTML = "";
-
-
-            let total = 0;
-
-
-            if (cart.length === 0) {
-
-                const empty = document.createElement("div");
-
-                empty.className = "text-center py-12";
-
-                empty.innerHTML = `
-                    <div class="text-5xl mb-3">🛒</div>
-                    <p class="font-semibold text-slate-700">
-                        Keranjang masih kosong
-                    </p>
-                    <p class="text-sm text-slate-400 mt-2">
-                        Silakan pilih produk terlebih dahulu.
-                    </p>
-                `;
-
-                container.appendChild(empty);
-
-            }
-
-
-            cart.forEach((item, index) => {
-
-                total += Number(item.harga) * item.qty;
-
-
-                const row = document.createElement("div");
-
-                row.className =
-                    "flex justify-between items-start gap-3 bg-slate-50 p-3 rounded-xl text-sm border";
-
-
-                const information = document.createElement("div");
-
-                information.className = "flex-1";
-
-
-                const name = document.createElement("p");
-
-                name.className = "font-semibold text-slate-800";
-
-                name.textContent = item.nama;
-
-                information.appendChild(name);
-
-
-                const price = document.createElement("p");
-
-                price.className = "text-xs text-slate-500 mt-1";
-
-                price.textContent =
-                    formatRupiah(item.harga) + " x " + item.qty;
-
-                information.appendChild(price);
-
-
-                const quantity = document.createElement("div");
-
-                quantity.className = "flex items-center gap-2 mt-3";
-
-
-                const minus = document.createElement("button");
-
-                minus.type = "button";
-
-                minus.className =
-                    "w-7 h-7 rounded border bg-white hover:bg-slate-100";
-
-                minus.textContent = "−";
-
-                minus.setAttribute("aria-label", "Kurangi jumlah");
-
-                minus.addEventListener("click", function () {
-
-                    changeQuantity(index, -1);
-
-                });
-
-
-                const qtyText = document.createElement("span");
-
-                qtyText.className = "text-sm font-semibold";
-
-                qtyText.textContent = item.qty;
-
-
-                const plus = document.createElement("button");
-
-                plus.type = "button";
-
-                plus.className =
-                    "w-7 h-7 rounded border bg-white hover:bg-slate-100";
-
-                plus.textContent = "+";
-
-                plus.setAttribute("aria-label", "Tambah jumlah");
-
-                plus.addEventListener("click", function () {
-
-                    changeQuantity(index, 1);
-
-                });
-
-
-                quantity.appendChild(minus);
-
-                quantity.appendChild(qtyText);
-
-                quantity.appendChild(plus);
-
-                information.appendChild(quantity);
-
-
-                const remove = document.createElement("button");
-
-                remove.type = "button";
-
-                remove.className =
-                    "text-red-500 hover:text-red-700 text-xs font-bold";
-
-                remove.textContent = "Hapus";
-
-                remove.addEventListener("click", function () {
-
-                    removeFromCart(index);
-
-                });
-
-
-                row.appendChild(information);
-
-                row.appendChild(remove);
-
-                container.appendChild(row);
-
-            });
-
-
-            document.getElementById("cart-total").textContent =
-                formatRupiah(total);
-
-        }
-
-
-        // =====================================
-        // UBAH JUMLAH PRODUK
-        // =====================================
-
-        function changeQuantity(index, change) {
-
-            const item = cart[index];
-
-            if (!item) {
-
-                return;
-
-            }
-
-            const newQuantity = item.qty + change;
-
-            if (newQuantity <= 0) {
-
-                removeFromCart(index);
-
-                return;
-
-            }
-
-            if (newQuantity > Number(item.stok)) {
-
-                alert("Jumlah pembelian melebihi stok yang tersedia.");
-
-                return;
-
-            }
-
-            item.qty = newQuantity;
-
-            updateCartUI();
-
-        }
-
-
-        // =====================================
-        // HAPUS PRODUK DARI KERANJANG
-        // =====================================
-
-        function removeFromCart(index) {
-
-            cart.splice(index, 1);
-
-            updateCartUI();
-
-        }
-
-
-        // =====================================
-        // BUKA / TUTUP KERANJANG
-        // =====================================
-
-        function toggleCart() {
-
-            const modal = document.getElementById("cart-modal");
-
-            const isHidden = modal.classList.contains("hidden");
-
-            if (isHidden) {
-
-                modal.classList.remove("hidden");
-
-                modal.classList.add("flex");
-
-                document.body.style.overflow = "hidden";
-
-            } else {
-
-                modal.classList.add("hidden");
-
-                modal.classList.remove("flex");
-
-                document.body.style.overflow = "";
-
-            }
-
-        }
-
-
-        function closeCartOnBackdrop(event) {
-
-            if (event.target.id === "cart-modal") {
-
-                toggleCart();
-
-            }
-
-        }
-
-
-        // =====================================
-        // PEMERIKSAAN NOMOR WHATSAPP ADMIN
-        // =====================================
-
-        function isAdminNumberConfigured() {
-
-            return (
-                WA_ADMIN &&
-                /^62\d{8,15}$/.test(WA_ADMIN) &&
-                WA_ADMIN !== "6281234567890"
-            );
-
-        }
-
-
-        // =====================================
-        // CHECKOUT MELALUI WHATSAPP
-        // =====================================
-
-        async function handleCheckout(event) {
-
-            event.preventDefault();
-
-
-            if (cart.length === 0) {
-
-                alert("Keranjang belanja Anda masih kosong!");
-
-                return;
-
-            }
-
-
-            if (!isAdminNumberConfigured()) {
-
-                alert(
-                    "Silakan ganti WA_ADMIN di dalam kode HTML dengan nomor WhatsApp admin toko yang aktif. Gunakan format 62, tanpa tanda + atau angka 0 di depan."
-                );
-
-                return;
-
-            }
-
-
-            const button = document.getElementById("btn-submit");
-
-            button.textContent = "Menyiapkan Pesanan...";
-
-            button.disabled = true;
-
-
-            try {
-
-                const invoiceCode =
-                    "INV-" + Date.now().toString().slice(-8);
-
-
-                const payload = {
-
-                    invoice: invoiceCode,
-
-                    nama: document.getElementById("cust-name").value.trim(),
-
-                    whatsapp: document.getElementById("cust-phone").value.trim(),
-
-                    alamat: document.getElementById("cust-address").value.trim(),
-
-                    items: cart.map(item => ({
-
-                        id: item.id,
-
-                        nama: item.nama,
-
-                        harga: Number(item.harga),
-
-                        qty: item.qty,
-
-                        subtotal: Number(item.harga) * item.qty
-
-                    })),
-
-                    total: cart.reduce((sum, item) => {
-
-                        return sum + Number(item.harga) * item.qty;
-
-                    }, 0)
-
-                };
-
-
-                /*
-                 * Jika menggunakan Google Apps Script,
-                 * kirim pesanan ke API yang telah dikonfigurasi.
-                 *
-                 * Mode no-cors tidak memungkinkan JavaScript
-                 * membaca respons server. Pastikan Apps Script
-                 * memang disiapkan untuk menerima POST.
-                 */
-
-                if (
-                    API_URL &&
-                    API_URL !== "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DISINI"
-                ) {
-
-                    try {
-
-                        await fetch(API_URL, {
-
-                            method: "POST",
-
-                            mode: "no-cors",
-
-                            headers: {
-
-                                "Content-Type": "text/plain;charset=utf-8"
-
-                            },
-
-                            body: JSON.stringify(payload)
-
-                        });
-
-                    } catch (apiError) {
-
-                        console.error(
-                            "Pengiriman ke Google Apps Script gagal:",
-                            apiError
-                        );
-
-                    }
-
-                }
-
-
-                // Menyusun pesan WhatsApp
-                let message = "Halo Admin Tokoku, saya ingin memesan produk.\n\n";
-
-                message += "Nomor Pesanan: " + invoiceCode + "\n";
-
-                message += "Nama: " + payload.nama + "\n";
-
-                message += "Nomor WhatsApp: " + payload.whatsapp + "\n";
-
-                message += "Alamat: " + payload.alamat + "\n\n";
-
-                message += "DAFTAR BELANJA:\n";
-
-
-                payload.items.forEach(item => {
-
-                    message +=
-                        "- " +
-                        item.nama +
-                        " (" +
-                        item.qty +
-                        " x " +
-                        formatRupiah(item.harga) +
-                        ") = " +
-                        formatRupiah(item.subtotal) +
-                        "\n";
-
-                });
-
-
-                message += "\nTotal produk: " + formatRupiah(payload.total);
-
-                message += "\n\nMohon konfirmasi ketersediaan produk, ongkos kirim, dan metode pembayaran. Terima kasih.";
-
-
-                const whatsappURL =
-                    "https://wa.me/" +
-                    WA_ADMIN +
-                    "?text=" +
-                    encodeURIComponent(message);
-
-
-                // Buka WhatsApp
-                window.open(whatsappURL, "_blank", "noopener,noreferrer");
-
-
-                /*
-                 * Keranjang tidak langsung dikosongkan.
-                 * Pembeli dapat memeriksa pesanan kembali
-                 * jika WhatsApp tidak berhasil terbuka.
-                 */
-
-            } catch (error) {
-
-                console.error("Kesalahan checkout:", error);
-
-                alert("Terjadi kesalahan. Silakan coba kembali.");
-
-            } finally {
-
-                button.textContent = "Beli Sekarang via WhatsApp 📲";
-
-                button.disabled = false;
-
-            }
-
-        }
-
-
-        // =====================================
-        // TOP UP PULSA / PAKET DATA
-        // =====================================
-
-        function selectTopupType(type, selectedButton) {
-
-            currentTopupType = type;
-
-
-            document.querySelectorAll(".topup-tab").forEach(button => {
-
-                button.classList.remove(
-                    "border-b-2",
-                    "border-green-600",
-                    "font-semibold",
-                    "market-green"
-                );
-
-                button.classList.add("text-slate-500");
-
-            });
-
-
-            selectedButton.classList.remove("text-slate-500");
-
-            selectedButton.classList.add(
-                "border-b-2",
-                "border-green-600",
-                "font-semibold",
-                "market-green"
-            );
-
-
-            const numberInput = document.getElementById("topup-number");
-
-            if (type === "Token Listrik") {
-
-                numberInput.placeholder = "Nomor meter / ID pelanggan";
-
-            } else if (type === "Lainnya") {
-
-                numberInput.placeholder = "Masukkan nomor / ID";
-
-            } else {
-
-                numberInput.placeholder = "Masukkan nomor";
-
-            }
-
-        }
-
-
-        function submitTopup(event) {
-
-            event.preventDefault();
-
-
-            if (!isAdminNumberConfigured()) {
-
-                alert(
-                    "Silakan atur nomor WhatsApp admin pada variabel WA_ADMIN di dalam kode."
-                );
-
-                return;
-
-            }
-
-
-            const number = document
-                .getElementById("topup-number")
-                .value
-                .trim();
-
-            const amount = document
-                .getElementById("topup-amount")
-                .value;
-
-
-            if (!number || !amount) {
-
-                alert("Silakan lengkapi nomor tujuan dan nominal.");
-
-                return;
-
-            }
-
-
-            let message = "Halo Admin Tokoku, saya ingin memesan top up.\n\n";
-
-            message += "Jenis layanan: " + currentTopupType + "\n";
-
-            message += "Nomor tujuan: " + number + "\n";
-
-            message += "Nominal: " + formatRupiah(amount) + "\n\n";
-
-            message += "Mohon konfirmasi pesanan saya. Terima kasih.";
-
-
-            const whatsappURL =
-                "https://wa.me/" +
-                WA_ADMIN +
-                "?text=" +
-                encodeURIComponent(message);
-
-
-            window.open(whatsappURL, "_blank", "noopener,noreferrer");
-
-        }
-
-
-        // =====================================
-        // TOMBOL MASUK / DAFTAR
-        // =====================================
-
-        function showAccountMessage() {
-
-            alert(
-                "Fitur masuk dan pendaftaran akun belum diaktifkan pada versi ini."
-            );
-
-        }
-
-
-        // =====================================
-        // HUBUNGI ADMIN
-        // =====================================
-
-        function contactAdmin() {
-
-            if (!isAdminNumberConfigured()) {
-
-                alert(
-                    "Silakan ganti WA_ADMIN di dalam kode HTML dengan nomor WhatsApp admin toko."
-                );
-
-                return;
-
-            }
-
-
-            const message =
-                "Halo Admin Tokoku, saya ingin bertanya tentang produk.";
-
-            const whatsappURL =
-                "https://wa.me/" +
-                WA_ADMIN +
-                "?text=" +
-                encodeURIComponent(message);
-
-
-            window.open(whatsappURL, "_blank", "noopener,noreferrer");
-
-        }
-
-
-        // =====================================
-        // INISIALISASI WEBSITE
-        // =====================================
-
-        updateCartUI();
-
-        loadProducts();
-
-    </script>
+  </script>
 
 </body>
 </html>
